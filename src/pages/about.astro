@@ -1,0 +1,49 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {marked} from "marked"
+
+const response = await fetch(
+  "https://api-eu-west-2.hygraph.com/v2/clqmge7q8kbx401tc86j616yq/master",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      query: `
+        {
+          about(where:{id: "clqmo46nufeck0bmislhhdaqg"}) {
+            pageContent
+          }
+        }
+      `,
+    }),
+  }
+);
+
+const data = await response.json();
+const pageContent = marked.parse(data.data.about.pageContent);
+
+---
+
+<Layout title="Spring Bank Science | About">
+    <main set:html={pageContent} class="px-6 py-10 text-light text-lg" />
+</Layout>
+
+<style is:global>
+	p {
+		font-weight: 300;
+    padding-bottom: 1rem;
+	}
+
+  h1 {
+    font-size: 26px;
+    padding-bottom: 0.5rem;
+  }
+  
+  h2 {
+    font-size: 20px;
+    padding-bottom: 0.5rem;
+  }
+</style>

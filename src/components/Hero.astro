@@ -1,0 +1,45 @@
+---
+const response = await fetch(
+  "https://api-eu-west-2.hygraph.com/v2/clqmge7q8kbx401tc86j616yq/master",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      query: `
+        {
+          home(where:{id: "clqmgs224e23d0blaky0r5qi3"}) {
+            centralImage {
+				url(transformation: {image: {resize: {height: 150, width: 150}}})
+			}
+            bannerImage {
+                url(transformation: {image: {resize: {height: 300, width: 400}}})
+            }
+          }
+        }
+      `,
+    }),
+  }
+);
+
+const data = await response.json();
+const profileImageUrl = data.data.home.centralImage.url;
+const bannerImageUrl = data.data.home.bannerImage.url;
+---
+
+<div
+  style={{ backgroundImage: `url(${bannerImageUrl})` }}
+  class="bg-cover min-h-[300px] relative pl-5 flex items-center justify-between"
+>
+  <img src={profileImageUrl} class="rounded-full h-[150px] w-[150px]" />
+  <div class="flex flex-col gap-3">
+      <p class="text-white bg-gray text-3xl font-light py-1 pl-3 pr-1">Spring Bank</p>
+      <p class="text-white bg-gray text-5xl font-normal py-1 pl-3 pr-1">Science</p>
+  </div>
+  <div
+    class="absolute w-full h-full top-0 left-0 bg-gradient-to-b from-gray-transparent to-transparent z-0 pointer-events-none"
+  >
+  </div>
+</div>

@@ -1,0 +1,26 @@
+---
+let current = Astro.url.pathname;
+---
+
+<ul
+  class="list-none flex items-center justify-center gap-4 p-4 text-regular bg-gray text-white text-lg"
+>
+  <li>
+    <a href="/" class={current === "/" ? "underline" : ""}>Home</a>
+  </li>
+  <li>
+    <a href="/about" class={current === "/about" ? "underline" : ""}>About</a>
+  </li>
+  <li>
+    <a href="/contact" class={current === "/contact" ? "underline" : ""}
+      >Contact</a
+    >
+  </li>
+  <li
+    class={`bg-purple px-3 py-1 rounded-md ${
+      current === "/pricing" ? "underline" : ""
+    }`}
+  >
+    <a href="/pricing">Pricing</a>
+  </li>
+</ul>
