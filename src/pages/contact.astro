@@ -1,8 +1,49 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { marked } from "marked";
 
+const response = await fetch(
+  "https://api-eu-west-2.hygraph.com/v2/clqmge7q8kbx401tc86j616yq/master",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      query: `
+        {
+          contact(where:{id: "clqmwiwdcfu220bla029ypgl2"}) {
+            introText
+          }
+        }
+      `,
+    }),
+  }
+);
+
+const data = await response.json();
+const introText = marked.parse(data.data.contact.introText);
 ---
 
 <Layout title="Spring Bank Science | Contact">
-    <div>CONTACT</div>
+  <main class="px-6 py-10 text-light text-lg">
+    <div set:html={introText} />
+    <button class="bg-purple rounded-md text-white p-3 w-full mt-10"
+      >Send a Message</button
+    >
+    <button class="bg-purple rounded-md text-white p-3 w-full mt-5"
+      >Call</button
+    >
+  </main>
 </Layout>
+
+<style is:global>
+  h1 {
+    font-size: 26px;
+  }
+  p {
+    font-size: 20px;
+    font-weight: 300;
+  }
+</style>
