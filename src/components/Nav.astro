@@ -6,19 +6,24 @@ let current = Astro.url.pathname;
   class="list-none flex items-center justify-center gap-4 p-4 text-regular bg-gray text-white text-lg"
 >
   <li>
-    <a href="/" class={current === "/" ? "underline" : ""}>Home</a>
+    <a href="/" class={current === "/" ? "border-b-2 border-white" : ""}>Home</a
+    >
   </li>
   <li>
-    <a href="/about" class={current === "/about" ? "underline" : ""}>About</a>
+    <a
+      href="/about"
+      class={current === "/about" ? "border-b-2 border-white" : ""}>About</a
+    >
   </li>
   <li>
-    <a href="/contact" class={current === "/contact" ? "underline" : ""}
-      >Contact</a
+    <a
+      href="/contact"
+      class={current === "/contact" ? "border-b-2 border-white" : ""}>Contact</a
     >
   </li>
   <li
     class={`bg-purple px-3 py-1 rounded-md ${
-      current === "/pricing" ? "underline" : ""
+      current === "/pricing" ? "border-green" : ""
     }`}
   >
     <a href="/pricing">Pricing</a>

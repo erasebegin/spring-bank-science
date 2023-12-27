@@ -1,4 +1,5 @@
 ---
+import ContactButtons from "../components/ContactButtons";
 import Layout from "../layouts/Layout.astro";
 import { marked } from "marked";
 
@@ -29,12 +30,7 @@ const introText = marked.parse(data.data.contact.introText);
 <Layout title="Spring Bank Science | Contact">
   <main class="px-6 py-10 text-light text-lg">
     <div set:html={introText} />
-    <button class="bg-purple rounded-md text-white p-3 w-full mt-10"
-      >Send a Message</button
-    >
-    <button class="bg-purple rounded-md text-white p-3 w-full mt-5"
-      >Call</button
-    >
+    <ContactButtons client:load phoneNumber="765432765437"/>
   </main>
 </Layout>
 
@@ -45,5 +41,6 @@ const introText = marked.parse(data.data.contact.introText);
   p {
     font-size: 20px;
     font-weight: 300;
+    /* color: #f3f2f7; */
   }
 </style>
