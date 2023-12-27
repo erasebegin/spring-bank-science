@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { removePTags } from "../utils";
 
 const ContactButtons = ({ phoneNumber }: { phoneNumber: string }) => {
-  const [openModal, setOpenModal] = useState<string>();
+  const [openModal, setOpenModal] = useState<string>("");
 
   const stopPropagation = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -12,7 +13,7 @@ const ContactButtons = ({ phoneNumber }: { phoneNumber: string }) => {
     const myForm = event.target;
     const formData = new FormData(myForm);
 
-    fetch("/", {
+    fetch("/api/email", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams(formData).toString(),
@@ -31,7 +32,7 @@ const ContactButtons = ({ phoneNumber }: { phoneNumber: string }) => {
         component = <ContentsMessage handleSubmit={handleSubmit} />;
         break;
       case "sent":
-        component = <ContentsSent />;
+        component = <ContentsSent setOpenModal={setOpenModal} />;
         break;
       default:
         component = <p>Error</p>;
@@ -52,10 +53,9 @@ const ContactButtons = ({ phoneNumber }: { phoneNumber: string }) => {
         } fixed w-full h-full inset-0 bg-gray-transparent2 transition-opacity flex justify-center items-center`}
       >
         <div
-          className="bg-white px-5 py-10 w-11/12 rounded-md"
+          className="bg-white px-5 py-6 w-11/12 rounded-md"
           onClick={stopPropagation}
         >
-          <h3 className="text-2xl pb-5">Contact Spring Bank Science</h3>
           {openModal && getModalContents(openModal)}
         </div>
       </div>
@@ -81,36 +81,39 @@ const ContentsMessage = ({
   handleSubmit: (event: React.FormEvent) => void;
 }) => {
   return (
-    <form
-      name="contact"
-      method="POST"
-      data-netlify="true"
-      onSubmit={handleSubmit}
-    >
-      <input type="hidden" name="form-name" value="contact" />
-      <div className="flex flex-col gap-5">
-        <input
-          className="bg-gray-50 p-3 rounded-md placeholder:text-gray-150"
-          name="name"
-          placeholder="Name"
-        />
-        <input
-          className="bg-gray-50 p-3 rounded-md placeholder:text-gray-150"
-          name="email"
-          type="email"
-          placeholder="Email"
-        />
-        <textarea
-          rows={5}
-          className="bg-gray-50 p-3 rounded-md placeholder:text-gray-150"
-          name="message"
-          placeholder="Message"
-        />
-        <button type="submit" className="p-3 bg-purple rounded-md text-white">
-          Send Message
-        </button>
-      </div>
-    </form>
+    <>
+      <h3 className="text-2xl pb-5">Contact Spring Bank Science</h3>
+      <form
+        name="contact"
+        method="POST"
+        data-netlify="true"
+        onSubmit={handleSubmit}
+      >
+        <input type="hidden" name="form-name" value="contact" />
+        <div className="flex flex-col gap-5">
+          <input
+            className="bg-gray-50 p-3 rounded-md placeholder:text-gray-150"
+            name="name"
+            placeholder="Name"
+          />
+          <input
+            className="bg-gray-50 p-3 rounded-md placeholder:text-gray-150"
+            name="email"
+            type="email"
+            placeholder="Email"
+          />
+          <textarea
+            rows={5}
+            className="bg-gray-50 p-3 rounded-md placeholder:text-gray-150"
+            name="message"
+            placeholder="Message"
+          />
+          <button type="submit" className="p-3 bg-purple rounded-md text-white">
+            Send Message
+          </button>
+        </div>
+      </form>
+    </>
   );
 };
 
@@ -128,6 +131,7 @@ const ContentsCall = ({ phoneNumber }: { phoneNumber: string }) => {
 
   return (
     <div className="flex flex-col gap-3 relative">
+      <h3 className="text-2xl pb-5">Contact Spring Bank Science</h3>
       <p
         className={`absolute top-[-105px] right-[-10px] bg-gray text-white rounded-md py-1 px-2 text-sm
         ${
@@ -142,13 +146,13 @@ const ContentsCall = ({ phoneNumber }: { phoneNumber: string }) => {
         className="bg-gray-50 rounded-md p-3 flex justify-between items-center"
         onClick={copyToClipboard}
       >
-        <p className="text-gray  font-medium">{phoneNumber}</p>
+        <p className="text-gray font-medium">{removePTags(phoneNumber)}</p>
         <button className="p-1 rounded-sm">
           <img src="/copy.svg" alt="copy icon" />
         </button>
       </div>
       <a
-        href={`tel:${phoneNumber}`}
+        href={`tel:${removePTags(phoneNumber)}`}
         className="bg-purple text-white flex justify-center p-3 rounded-md gap-2"
       >
         <img src="/phone.svg" alt="phone icon" />
@@ -158,8 +162,19 @@ const ContentsCall = ({ phoneNumber }: { phoneNumber: string }) => {
   );
 };
 
-const ContentsSent = () => {
-  return <p>SENT</p>;
+const ContentsSent = ({ setOpenModal }: { setOpenModal: () => void }) => {
+  return (
+    <div className="flex flex-col items-center justify-center">
+      <h3 className="text-2xl pb-5">Message Sent</h3>
+      <img src="/success.svg" alt="success icon" className="h-20 w-20 mb-5" />
+      <button
+        className="border-purple text-purple border-2 rounded-md py-1 px-3"
+        onClick={() => setOpenModal("")}
+      >
+        Close
+      </button>
+    </div>
+  );
 };
 
 export default ContactButtons;

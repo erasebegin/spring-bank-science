@@ -15,6 +15,7 @@ export default {
         DEFAULT: "#124985",
       },
       purple: {
+        50: "#d9d1fa",
         DEFAULT: "#7534E1",
       },
       gray: {
