@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { removePTags } from "../utils";
 
-const ContactButtons = ({ phoneNumber }: { phoneNumber: string }) => {
+const ContactButtons = ({
+  phoneNumber,
+  compact = false,
+}: {
+  phoneNumber: string;
+  compact?: boolean;
+}) => {
   const [openModal, setOpenModal] = useState<string>("");
 
   const stopPropagation = (event: React.MouseEvent) => {
@@ -59,18 +65,37 @@ const ContactButtons = ({ phoneNumber }: { phoneNumber: string }) => {
           {openModal && getModalContents(openModal)}
         </div>
       </div>
-      <button
-        className="bg-purple rounded-md text-white p-3 w-full mt-10 flex gap-3 justify-center"
-        onClick={() => setOpenModal("message")}
-      >
-        <img src="/mail.svg" alt="mail icon" /> Send a Message
-      </button>
-      <button
-        className="bg-purple rounded-md text-white p-3 w-full mt-5 flex gap-2 justify-center"
-        onClick={() => setOpenModal("call")}
-      >
-        <img src="/phone.svg" alt="phone icon" /> Call
-      </button>
+      {compact ? (
+        <div class="flex">
+          <button
+            className="rounded-full p-3 w-[50px] h-[50px] flex gap-3 justify-center"
+            onClick={() => setOpenModal("message")}
+          >
+            <img src="/mail.svg" alt="mail icon" />
+          </button>
+          <button
+            className="rounded-full p-3 w-[50px] h-[50px] flex gap-3 justify-center"
+            onClick={() => setOpenModal("call")}
+          >
+            <img src="/phone.svg" alt="phone icon" />
+          </button>
+        </div>
+      ) : (
+        <>
+          <button
+            className="bg-purple rounded-md text-white p-3 w-full mt-10 flex gap-3 justify-center"
+            onClick={() => setOpenModal("message")}
+          >
+            <img src="/mail.svg" alt="mail icon" /> Send a Message
+          </button>
+          <button
+            className="bg-purple rounded-md text-white p-3 w-full mt-5 flex gap-2 justify-center"
+            onClick={() => setOpenModal("call")}
+          >
+            <img src="/phone.svg" alt="phone icon" /> Call
+          </button>
+        </>
+      )}
     </div>
   );
 };

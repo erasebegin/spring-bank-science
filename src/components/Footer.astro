@@ -1,0 +1,41 @@
+---
+import ContactButtons from "./ContactButtons";
+
+const response = await fetch(
+  "https://api-eu-west-2.hygraph.com/v2/clqmge7q8kbx401tc86j616yq/master",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      query: `
+        {
+          contact(where:{id: "clqmwiwdcfu220bla029ypgl2"}) {
+            phoneNumber
+          }
+        }
+      `,
+    }),
+  }
+);
+
+const data = await response.json();
+const phoneNumber = data.data.contact.phoneNumber;
+---
+
+<footer class="bg-gray p-8 flex items-center justify-between">
+  <div class="flex items-center gap-3">
+    <img
+      src="/science.svg"
+      alt="conical flask with atom at the center to represent science"
+      class="h-[50px] w-[50px]"
+    />
+    <div>
+      <h2 class="text-white text-xl">Spring Bank</h2>
+      <h1 class="text-white text-2xl">Science</h1>
+    </div>
+  </div>
+  <ContactButtons client:load compact phoneNumber={phoneNumber} />
+</footer>
