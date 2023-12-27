@@ -16,6 +16,7 @@ export default {
       },
       purple: {
         50: "#d9d1fa",
+        100: "#F96EFC",
         DEFAULT: "#7534E1",
       },
       gray: {
