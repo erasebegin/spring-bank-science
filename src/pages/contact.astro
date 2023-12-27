@@ -28,12 +28,10 @@ const introText = marked.parse(data.data.contact.introText);
 ---
 
 <Layout title="Spring Bank Science | Contact">
-  <form name="contact" method="POST" data-netlify="true" hidden>
-    <input type="hidden" name="form-name" value="contact" />
-    <input name="name" placeholder="Name" />
-    <input name="email" type="email" placeholder="Email" />
-    <textarea rows={5} name="message" placeholder="Message"></textarea>
-    <button type="submit"> Send Message</button>
+  <form name="contact" data-netlify=true netlify-honeypot="bot-field" hidden>
+    <input type="text" name="name" />
+    <input type="email" name="email" />
+    <textarea name="message"></textarea>
   </form>
   <main class="px-6 py-10 text-light text-lg">
     <div set:html={introText} />
